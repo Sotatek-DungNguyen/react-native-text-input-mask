@@ -64,7 +64,8 @@ extension String {
         if dividers.count > 1 {
             let fractionDigitNumber = min(dividers[1].count, precision)
             let fractionPart = dividers[1]
-            amountWithoutPrefix = formatter.string(from: NSNumber(value: floor(double)))! + "."
+            let integetPartValue = floor(double.magnitude) * (double >= 0 ? 1 : -1)
+            amountWithoutPrefix = formatter.string(from: NSNumber(value: integetPartValue))! + "."
             if fractionDigitNumber > 0 {
                 amountWithoutPrefix += String(fractionPart[..<fractionPart.index(fractionPart.startIndex, offsetBy: fractionDigitNumber)])
             }
