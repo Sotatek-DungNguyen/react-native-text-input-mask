@@ -66,16 +66,30 @@ public class RNTextInputMaskModule extends ReactContextBaseJavaModule {
     public void unmask(final String maskString,
                        final String inputValue,
                        final Callback onResult) {
-        final Mask mask = new Mask(maskString);
-        final String input = inputValue;
-        final Mask.Result result = mask.apply(
-                new CaretString(
-                        input,
-                        input.length()
-                ),
-                true
-        );
-        final String output = result.getExtractedValue();
+
+        String output;
+        String[] strings = maskString.split("/");
+
+        if ("currency".equalsIgnoreCase(strings[0])) {
+            String prefix = "";
+            if (strings.length > 1) {
+                prefix = strings[1];
+            }
+
+            output = MoneyTextWatcher.Helper.instance.extractRawCurrency(inputValue, prefix);
+        }
+        else {
+            final Mask mask = new Mask(maskString);
+            final String input = inputValue;
+            final Mask.Result result = mask.apply(
+                    new CaretString(
+                            input,
+                            input.length()
+                    ),
+                    true
+            );
+            output = result.getExtractedValue();
+        }
         onResult.invoke(output);
     }
 

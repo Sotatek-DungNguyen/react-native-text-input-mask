@@ -103,6 +103,10 @@ public class MoneyTextWatcher implements TextWatcher {
             return formatInteger(cleanString, prefix);
         }
 
+        public String extractRawCurrency(String str, String prefix) {
+            return str.replace(prefix, "").replaceAll("[^.0-9]", "");
+        }
+
         private String formatInteger(String str, String prefix) {
             BigDecimal parsed = new BigDecimal(str);
             DecimalFormat formatter =
